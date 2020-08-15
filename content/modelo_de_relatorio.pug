@@ -1,0 +1,59 @@
+style(lang="scss").
+  @page {
+    margin: 1cm 0 2cm 0cm;
+    @bottom-center {
+      content: "";
+    }
+  }
+
+#sidebar: p Atualizado por @brcds - {{ hoje }}
+
+
+h1 Relatório de Controle de Gastos
+
+.ui.piled.segment: p.
+  Este relatório tem como finalidade trazer um gráfico com levantamentos dos seus gastos.
+  Vivemos um momento de crise, é muito importante ter controle emocional e financeiro.
+
+
+:markdown
+  ***Gerado automaticamente e conferido.***
+  
+  ```
+  controle_financeiro_{{ hoje }}.pdf
+  ```
+  
+  Para maiores informações sobre planejamento financeiro, recomendamos que acesse os canais, <b>ME POUPE(Nathalia Arcuri)</b>
+  e <b>PRIMO RICO(Thiago Nigro)</b>, eles falam muito sobre investimentos e controle financeiro emocional.
+
+  
+.ui.container
+  .ui.icon.message.yellow.block-center
+    i.exclamation.circle.icon
+    .content
+      .header Informações atualizadas do último dia.
+      p.
+        Os últimos lançamentos deste relatório dizem respeito ao dia
+        {{ planilha.iloc[-1].data.day }}/{{ planilha.iloc[-1].data.month}}/{{ planilha.iloc[-1].data.year}}, 
+        onde o dap parcela foi R$ {{ planilha.iloc[-1].valor_parcela }} e o preço total foi
+        de R$ {{ planilha.iloc[-1].preco_total }}..
+
+
+:markdown
+  ##  Informações Adicionais
+  
+  Até o presente momento esta sendo atualizado automaticamente, considerando {{ planilha.shape[0] }} entradas.
+
+center
+  - var figure = planilha.plot("data", "valor_parcela")
+  img(src="{{ pdf_tools.figure_data(figure, (6, 4)) }}")
+
+:markdown
+  ### Últimos lançamentos
+  
+  Seus ultimos 7 gastos.
+
+
+{{ pdf_tools.dataframe_to_html(planilha.iloc[-7:]) }}
+
+p.main-paragraph </br></br>Foi um prazer pode ajudar você.
